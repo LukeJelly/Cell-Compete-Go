@@ -101,6 +101,17 @@ func findRightCellsValue(currentCellPointer *cell) uint8 {
 	return rightValue
 }
 
+//GetGroupAsArray returned a groupofcells as an array.
+func (gpc GroupOfCells) GetGroupAsArray() []uint8{
+	pointer := gpc.farLeftCell
+	returnedArray := make([]uint8, gpc.size)
+	for i:=0; i < gpc.size; i++ {
+		returnedArray[i] = pointer.value
+		pointer = pointer.right
+	}
+	return returnedArray
+}
+
 type cell struct{
 	value uint8
 	left *cell
