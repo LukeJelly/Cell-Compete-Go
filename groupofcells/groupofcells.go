@@ -16,7 +16,7 @@ type GroupOfCells struct{
 }
 
 //NewGroupOfCells creates a new group of cells from the given array.
-func NewGroupOfCells(arr []uint8) *GroupOfCells{
+func NewGroupOfCells(arr []uint8) GroupOfCells{
 	index := 0
 	GPC := GroupOfCells{
 		farLeftCell: makeOneCell(arr[index],nil,nil),
@@ -25,7 +25,7 @@ func NewGroupOfCells(arr []uint8) *GroupOfCells{
 
 	index++
 	createGroupOfCellsFromArray(arr, &GPC, index)
-	return &GPC
+	return GPC
 }
 
 func makeOneCell(value uint8, left *cell, right *cell) *cell{
