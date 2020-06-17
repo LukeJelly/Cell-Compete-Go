@@ -10,17 +10,17 @@ const (
 )
 
 //GroupOfCells is a linkedlist type implementation to the GroupOfCells problem.
-type GroupOfCells struct{
+type GroupOfCells struct {
 	farLeftCell *cell
-	size int
+	size        int
 }
 
 //NewGroupOfCells creates a new group of cells from the given array.
-func NewGroupOfCells(arr []uint8) GroupOfCells{
+func NewGroupOfCells(arr []uint8) GroupOfCells {
 	index := 0
 	GPC := GroupOfCells{
-		farLeftCell: makeOneCell(arr[index],nil,nil),
-		size: len(arr),
+		farLeftCell: makeOneCell(arr[index], nil, nil),
+		size:        len(arr),
 	}
 
 	index++
@@ -28,20 +28,20 @@ func NewGroupOfCells(arr []uint8) GroupOfCells{
 	return GPC
 }
 
-func makeOneCell(value uint8, left *cell, right *cell) *cell{
+func makeOneCell(value uint8, left *cell, right *cell) *cell {
 	c := cell{
 		value: value,
-		left: left,
+		left:  left,
 		right: right,
 	}
 	return &c
 }
 
-func createGroupOfCellsFromArray(arr []uint8, groupOfCells *GroupOfCells, index int){
-	var lastUsedCell *cell
-	lastUsedCell = groupOfCells.farLeftCell
+func createGroupOfCellsFromArray(arr []uint8, groupOfCells *GroupOfCells, index int) {
+	var lastUsedCell *cell = groupOfCells.farLeftCell
 	var currentCell *cell
-	for ; index < len(arr); index++ {
+	sizeArray := len(arr)
+	for ; index < sizeArray; index++ {
 		value := arr[index]
 		currentCell = makeOneCell(value, lastUsedCell, nil)
 		lastUsedCell.right = currentCell
@@ -49,26 +49,26 @@ func createGroupOfCellsFromArray(arr []uint8, groupOfCells *GroupOfCells, index 
 	}
 }
 
-func (gpc GroupOfCells) String() string{
+func (gpc GroupOfCells) String() string {
 	var output string
 	pointer := gpc.farLeftCell
 	for pointer.right != nil {
-		output += fmt.Sprintf("%v,",pointer.value)
+		output += fmt.Sprintf("%v,", pointer.value)
 		pointer = pointer.right
 	}
-	output += fmt.Sprintf("%v",pointer.value)
+	output += fmt.Sprintf("%v", pointer.value)
 
 	return output
 }
 
 //Compete advances the current group of cells by the given amount
-func (gpc GroupOfCells) Compete(days int){
+func (gpc GroupOfCells) Compete(days int) {
 	for i := 0; i < days; i++ {
 		iterateGroupOfCellsOneDay(&gpc)
 	}
 }
 
-func iterateGroupOfCellsOneDay(gpc *GroupOfCells){
+func iterateGroupOfCellsOneDay(gpc *GroupOfCells) {
 	currentCellPointer := gpc.farLeftCell
 	var leftPreviousValue uint8
 
@@ -80,21 +80,21 @@ func iterateGroupOfCellsOneDay(gpc *GroupOfCells){
 	}
 }
 
-func mutateACell(gpc *GroupOfCells, leftPreviousValue uint8, currentCellPointer *cell){
+func mutateACell(gpc *GroupOfCells, leftPreviousValue uint8, currentCellPointer *cell) {
 	rightValue := findRightCellsValue(currentCellPointer)
-	
-	if(leftPreviousValue == rightValue){
+
+	if leftPreviousValue == rightValue {
 		currentCellPointer.value = Inactive
-	}else{
+	} else {
 		currentCellPointer.value = Active
 	}
 }
 
 func findRightCellsValue(currentCellPointer *cell) uint8 {
 	var rightValue uint8
-	if(currentCellPointer.right == nil){
+	if currentCellPointer.right == nil {
 		rightValue = Inactive
-	}else{
+	} else {
 		rightValue = currentCellPointer.right.value
 	}
 
@@ -102,19 +102,18 @@ func findRightCellsValue(currentCellPointer *cell) uint8 {
 }
 
 //GetGroupAsArray returned a groupofcells as an array.
-func (gpc GroupOfCells) GetGroupAsArray() []uint8{
+func (gpc GroupOfCells) GetGroupAsArray() []uint8 {
 	pointer := gpc.farLeftCell
 	returnedArray := make([]uint8, gpc.size)
-	for i:=0; i < gpc.size; i++ {
+	for i := 0; i < gpc.size; i++ {
 		returnedArray[i] = pointer.value
 		pointer = pointer.right
 	}
 	return returnedArray
 }
 
-type cell struct{
+type cell struct {
 	value uint8
-	left *cell
+	left  *cell
 	right *cell
 }
-
